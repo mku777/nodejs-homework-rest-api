@@ -5,7 +5,7 @@ const { auth: ctrl } = require("../../controller");
 
 const router = express.Router();
 
-router.post("/signup", validation(joiUserSchemas.joiSingUpSchema), ctrlWrapper(ctrl.signUp));
+router.post("/register", validation(joiUserSchemas.joiSingUpSchema), ctrlWrapper(ctrl.signUp));
 router.post("/login", validation(joiUserSchemas.joiSingInSchema), ctrlWrapper(ctrl.signIn));
 router.get("/logout", checkJwt, ctrlWrapper(ctrl.logOut));
 
