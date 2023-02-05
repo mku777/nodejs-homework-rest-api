@@ -17,13 +17,18 @@ const contactSchema = new Schema(
         email: {
             type: String,
             trim: true,
-            unique: true,
-            match: [emailRegExp, "Fill a valid email address"],
+            lowercase: true,
+            required: true,
+            match: [emailRegExp, "Please fill a valid email address"],
         },
         phone: {
             type: String,
-            match: [phoneRegExp, "Fill a valid phone number"],
-            unique: true,
+            match: [phoneRegExp, "Please fill a valid phone number"],
+            required: true,
+        },
+        owner: {
+            type: Schema.Types.ObjectId,
+            ref: "user",
         },
         favorite: {
             type: Boolean,
@@ -38,10 +43,10 @@ contactSchema.post("save", handleSaveErrors);
 const contactsSchema = Joi.object({
     name: Joi.string().min(3).max(30).required(),
     email: Joi.string().pattern(emailRegExp).required().messages({
-        "string.pattern.base": `Fill a valid email address`,
+        "string.pattern.base": `Please fill a valid email address`,
     }),
     phone: Joi.string().pattern(phoneRegExp).required().messages({
-        "string.pattern.base": `Fill a valid phone number`,
+        "string.pattern.base": `Please fill a valid phone number`,
     }),
     favorite: Joi.boolean(),
 });
@@ -50,11 +55,11 @@ const favoriteSchema = Joi.object({
     favorite: Joi.boolean().required(),
 });
 
-const schemas = {
+const joiContactsSchemas = {
     contactsSchema,
     favoriteSchema,
 };
 
 const Contact = model("contact", contactSchema);
 
-module.exports = { Contact, schemas };
+module.exports = { Contact, joiContactsSchemas };
