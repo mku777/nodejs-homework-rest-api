@@ -18,10 +18,11 @@ const verifyEmail = async (req, res) => {
   });
 
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+  const fromEmail = process.env.SENDGRID_EMAIL;
 
   const msg = {
     to: email,
-    from: "goitnodejshw@gmail.com",
+    from: fromEmail,
     subject: "Thank you for registration",
     text: `successfully registered`,
     html: `successfully registered`,
