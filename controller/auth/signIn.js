@@ -14,8 +14,11 @@ const signIn = async (req, res) => {
         throw RequestError(401, "Password is wrong");
     }
 
-    const token = generateToken(user);
+    if (!user.verify) {
+        throw RequestError(403, "Email not verify");
+    }
 
+    const token = generateToken(user);
 
     await User.findByIdAndUpdate(user._id, { token });
 
