@@ -9,4 +9,11 @@ router.post("/register", validation(joiUserSchemas.joiSingUpSchema), ctrlWrapper
 router.post("/login", validation(joiUserSchemas.joiSingInSchema), ctrlWrapper(ctrl.signIn));
 router.get("/logout", checkJwt, ctrlWrapper(ctrl.logOut));
 
+router.get("/verify/:verificationToken", ctrlWrapper(ctrl.verifyEmail));
+router.post(
+    "/verify",
+    validation(joiUserSchemas.joiVerifyEmailSchema),
+    ctrlWrapper(ctrl.resendEmail)
+);
+
 module.exports = router;
